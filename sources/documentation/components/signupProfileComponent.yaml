@@ -1,0 +1,9 @@
+components:
+  schemas:
+    signupProfileComponent:
+      tags:
+        - MODELS
+      type: "object"
+      properties:
+        signupProfileModel:
+          - $ref: '#/definitions/signupProfileModel'
