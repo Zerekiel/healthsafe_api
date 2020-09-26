@@ -21,7 +21,7 @@
   <body>
     <!-- we provide is specification here -->
     <% if (process.env.NODE_ENV === 'production') {%>
-            <redoc spec-url='https://healthsafe-api-beta.herokuapp.com/swagger.json' expand-responses="all"></redoc>
+            <redoc spec-url='https://healthsafe-beta.herokuapp.com/swagger.json' expand-responses="all"></redoc>
     <% } else { %>
             <redoc spec-url='https://localhost:3000/swagger.json' expand-responses="all"></redoc>
     <% } %>
