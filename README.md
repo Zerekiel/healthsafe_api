@@ -1,1 +1,0 @@
-# healthsafe_api

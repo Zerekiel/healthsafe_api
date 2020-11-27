@@ -1,18 +1,21 @@
 const mongoose = require('mongoose');
-const modelDrSignup = require('./modelDrSignup');
+const modelDrSignupSecu = require('./modelDrSignupSecu');
+// const bcrypt = require('bcryptjs')
+// const jwt = require('jsonwebtoken')
+// const validator = require('validator')
 
-const drProfileSchema = mongoose.Schema({
+const drProfileSecuSchema = mongoose.Schema({
 	_id: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'modelDrSignup'
+		ref: 'modelDrSignupSecu'
 	},
 	lastName:
 	{
 		type: String,
 		trim: true,
 		minLength: 1,
-		maxLength: 40,
-		ref: 'modelDrSignup'
+		maxLength: 100,
+		ref: 'modelDrSignupSecu'
 	},
 	firstName:
 	{
@@ -20,75 +23,71 @@ const drProfileSchema = mongoose.Schema({
 		trim: true,
 		uppercase: true,
 		minLength: 1,
-		maxLength: 40,
-		ref: 'modelDrSignup'
+		maxLength: 100,
+		ref: 'modelDrSignupSecu'
 	},
 	birthDay: {
 		type: String,
 		trim: true,
-		ref: 'modelDrSignup',
+		ref: 'modelDrSignupSecu',
 	},
 	age:
 	{
-		type: Number,
+		type: String,
 		trim: true,
-		min: 18,
-		max: 120,
-		ref: 'modelDrSignup'
+		minLength: 2,
+		maxLength: 6,
+		ref: 'modelDrSignupSecu'
 	},
 	phoneNumber:
 	{
 		type: String,
 		trim: true,
-		ref: 'modelDrSignup'
+		ref: 'modelDrSignupSecu'
 	},
 	address:
 		[{
 			_id: false,
 			streetNumber: {
-				type: Number,
+				type: String,
 				trim: true,
-				min: 0,
-				max: 9999,
-				ref: 'modelDrSignup'
+				minLength: 2,
+				maxLength: 10,
+				ref: 'modelDrSignupSecu'
 			},
 			typeStreetNumber: {
 				type: String,
-				enum: ['', "bis", "ter", "quater"],
 				trim: true,
 				minLength: 0,
-				maxLength: 6,
-				ref: 'modelDrSignup'
+				maxLength: 12,
+				ref: 'modelDrSignupSecu'
 			},
 			typeStreet: {
 				type: String,
-				enum: ["rue", "avenue", "boulevard", "chemin", "quai"],
 				trim: true,
-				ref: 'modelDrSignup'
+				ref: 'modelDrSignupSecu'
 			},
 			street: {
 				type: String,
 				trim: true,
-				ref: 'modelDrSignup'
+				ref: 'modelDrSignupSecu'
 			},
 			zipCode: {
-				type: Number,
+				type: String,
 				trim: true,
-				min: 00001,
-				max: 99999,
-				ref: 'modelDrSignup'
+				minLength: 2,
+				maxLength: 10,
+				ref: 'modelDrSignupSecu'
 			},
 			city: {
 				type: String,
 				trim: true,
-				uppercase: true,
-				ref: 'modelDrSignup'
+				ref: 'modelDrSignupSecu'
 			},
 			country: {
 				type: String,
 				trim: true,
-				uppercase: true,
-				ref: 'modelDrSignup'
+				ref: 'modelDrSignupSecu'
 			}
 		}],
 	email:
@@ -96,46 +95,52 @@ const drProfileSchema = mongoose.Schema({
 		type: String,
 		trim: true,
 		unique: true,
-		lowercase: true,
-		ref: 'modelDrSignup'
+		ref: 'modelDrSignupSecu'
 	},
 	password:
 	{
 		type: String,
 		trim: true,
-		minLength: 7,
-		maxLength: 20,
-		ref: 'modelDrSignup'
+		minLength: 14,
+		maxLength: 40,
+		ref: 'modelDrSignupSecu'
 	},
 	confirmationPassword:
 	{
 		type: String,
 		trim: true,
-		ref: 'modelDrSignup'
+		ref: 'modelDrSignupSecu'
 	},
 	expertiseDomain:
 	{
 		type: String,
 		trim: true,
-		uppercase: true,
-		ref: 'modelDrSignup'
+		ref: 'modelDrSignupSecu'
+	},
+	idNumber: //chiffre ? de base cetait idNumber
+	{
+		type: String,
+		trim: true,
+		// required: true,
+		unique: true,
+		ref: 'modelDrSignupSecu'
 	},
 	socialNumber: //chiffre ? de base cetait idNumber
 	{
 		type: String,
 		trim: true,
 		unique: true,
-		ref: 'modelDrSignup'
+		ref: 'modelDrSignupSecu'
 	},
 	updated:
 	{
 		type: Date,
 		default: Date.now,
-		ref: 'modelDrSignup'
+		ref: 'modelDrSignupSecu'
 	}
 });
 
-drProfileSchema.pre('save', async function (req) {
+drProfileSecuSchema.pre('save', async function (req) {
 	//GET AGE
 	// var today = new Date();
 	// var birthDate = new Date(this.birthDay);
@@ -149,7 +154,7 @@ drProfileSchema.pre('save', async function (req) {
 	// return age;
 })
 
-drProfileSchema.methods.generateAuthToken = async function () {
+drProfileSecuSchema.methods.generateAuthToken = async function () {
 	// Generate an auth token for the user
 	const user = this;
 	const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY);
@@ -160,8 +165,8 @@ drProfileSchema.methods.generateAuthToken = async function () {
 	return token
 }
 
-const modelDrProfile = mongoose.model('TEST-DrProfile', drProfileSchema, 'TEST-DrProfile');
+const modelDrProfileSecu = mongoose.model('TEST-DrProfileSecu', drProfileSecuSchema, 'TEST-DrProfileSecu');
 
 module.exports = {
-	modelDrProfile
+	modelDrProfileSecu
 }

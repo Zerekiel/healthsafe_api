@@ -24,6 +24,11 @@ definitions:
         pattern: /^(?=.{1,40}$)[a-zA-Z]+(?:[-,.'\s][a-zA-Z]+)*$/i
         default: ""
         example: ODeSu
+      birthday:
+        tyoe: String
+        description: "User's birthday"
+        default: ""
+        example: "day (01) - month (01) - year (2020)"
       age:
         type: integer
         description: "User's age."

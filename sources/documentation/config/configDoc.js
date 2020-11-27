@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var path = require("path");
-var swaggerJSDoc = require('swagger-jsdoc');
+const express = require('express');
+const router = express.Router();
+const path = require("path");
+const swaggerJSDoc = require('swagger-jsdoc');
 
 // -- setup up swagger-jsdoc --
 // const swaggerDefinition = {
@@ -17,11 +17,11 @@ var swaggerJSDoc = require('swagger-jsdoc');
 
 const options = {
   swaggerDefinition: {
-    //       info: {
-    //         title: 'HealthSafe API',
-    //         version: '1.0.0',
-    //         description: 'All routes of API',
-    // },
+          info: {
+            title: 'HealthSafe API',
+            version: '1.0.0',
+            description: 'All routes of API',
+    },
           components: {
                   schemas: {}
           },
@@ -29,8 +29,7 @@ const options = {
   },
   apis:
         [
-                path.resolve(__dirname, '../../routes/*.js'),
-                // path.resolve(__dirname, '../../documentation/routes/*.js'),
+                path.resolve(__dirname, '../../../routes/*.js'),
                 path.resolve(__dirname, '../../documentation/**/*.yaml'),
         ]
 };

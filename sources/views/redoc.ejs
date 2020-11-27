@@ -23,8 +23,8 @@
     <% if (process.env.NODE_ENV === 'production') {%>
             <redoc spec-url='https://x2021healthsafe1051895009000.northeurope.cloudapp.azure.com:5000/swagger.json' expand-responses="all"></redoc>
     <% } else { %>
-            <redoc spec-url='https://localhost:3000/swagger.json' expand-responses="all"></redoc>
+            <redoc spec-url='http://localhost:5000/swagger.json' expand-responses="all"></redoc>
     <% } %>
-    <script src="https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/redoc@next/bundles/redoc.standalone.js"></script>
   </body>
 </html>

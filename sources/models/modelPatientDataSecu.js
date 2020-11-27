@@ -1,12 +1,12 @@
 
 const mongoose = require('mongoose');
-const modelPatientSignup = require('./modelPatientSignup');
+const modelPatientSecuSignup = require('./modelPatientSecuSignup');
 
 
-const patientDataSchema = mongoose.Schema({
+const patientDataSecuSchema = mongoose.Schema({
 	_id: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: 'modelPatientSignup'
+        ref: 'modelPatientSecuSignup'
 	},
 	lastName :
 	{
@@ -14,74 +14,72 @@ const patientDataSchema = mongoose.Schema({
 		// required: true,
 		trim : true,
 		minLength: 1,
-		maxLength: 40,
-		ref: 'modelPatientSignup'
+		maxLength: 100,
+        ref: 'modelPatientSecuSignup'
 	},
 	firstName :
 	{
 		type : String,
 		// required: true,
 		trim : true,
-		uppercase: true,
 		minLength: 1,
-		maxLength: 40,
-		ref: 'modelPatientSignup'
+		maxLength: 100,
+        ref: 'modelPatientSecuSignup'
 	},
 	birthDay : {
 		type: String,
-		ref: 'modelPatientSignup',
+        ref: 'modelPatientSecuSignup',
 		trim: true
 	},
 	age:
 	{
-		type: Number,
+		type: String,
 		// required: true,
 		trim: true,
-		min: 0,
-		max: 120,
-		ref: 'modelPatientSignup'
+        minLength: 4,
+        maxLength: 100,
+        ref: 'modelPatientSecuSignup'
 	},
 	gender:
 	{
 		type: String,
 		// required: true,
-		enum: ["Male", "Female"],
 		trim: true,
-		min: 4,
-		max: 6,
-		ref: 'modelPatientSignup'
+        minLength: 10,
+        maxLength: 12,
+        ref: 'modelPatientSecuSignup'
 	},
 	height:
 	{
-		type: Number,
+		type: String,
 		// required: true,
 		trim: true,
-		min: 1,
-		max: 300,
-		ref: 'modelPatientSignup'
+        minLength: 2,
+        maxLength: 6,
+        ref: 'modelPatientSecuSignup'
 	},
 	weight:
 	{
-		type: Number,
+		type: String,
 		// required: true,
 		trim: true,
-		min: 1,
-		max: 500,
-		ref: 'modelPatientSignup'
+        minLength: 2,
+        maxLength: 6,
+        ref: 'modelPatientSecuSignup'
 	},
 	emergencyNumber:
 	{
 		type: String,
 		// required: true,
 		trim: true,
-		ref: 'modelPatientSignup'
+        ref: 'modelPatientSecuSignup'
 	},
 	allergies :
 	{
 		type: String,
 		// required: true,
 		trim: true,
-		ref: 'modelPatientSignup'
+        ref: 'modelPatientSecuSignup'
 	},
 	image:
 	{
@@ -95,20 +93,19 @@ const patientDataSchema = mongoose.Schema({
 	},
     medicalHistory:[String],
 	/*{
-		type: [],//tab string []
+		type: [[String]],//tab string []
 		// required: true,
 		trim: true,
-		//ref: 'modelPatientSignup'
+        //ref: 'modelPatientSecuSignup'
 
 	},*/
 	bloodType:
 	{
 		type: String,
-		enum: ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
 		trim: true,
-		minLength: 2,
-		maxLength: 3,
-		ref: 'modelPatientSignup'
+		minLength: 4,
+		maxLength: 6,
+        ref: 'modelPatientSecuSignup'
 	},
 	socialNumber :
 	{
@@ -116,28 +113,28 @@ const patientDataSchema = mongoose.Schema({
 		trim : true,
 		// required: true,
 		unique: true,
-		ref: 'modelPatientSignup'
+        ref: 'modelPatientSecuSignup'
 
 	},
 	treatments :
 	{
 		type : String,
 		trim : true,
-		ref: 'modelPatientSignup'
+        ref: 'modelPatientSecuSignup'
 	},
 	organDonation :
 	{
-		type : Boolean,
+		type : String,
 		trim : true,
-		ref: 'modelPatientSignup'
+        ref: 'modelPatientSecuSignup'
 	},
 	doctor :
 	{
 		type : String,
 		trim : true,
-		minLength: 1,
-		maxLength: 40,
-		ref: 'modelPatientSignup'
+		minLength: 2,
+		maxLength: 200,
+        ref: 'modelPatientSecuSignup'
 	},
 	updated:
 	{
@@ -146,8 +143,8 @@ const patientDataSchema = mongoose.Schema({
 	}
 });
 
-const modelPatientData = mongoose.model('TEST-PatientData', patientDataSchema, 'TEST-PatientData');
+const modelPatientDataSecu = mongoose.model('TEST-PatientDataSecu', patientDataSecuSchema, 'TEST-PatientDataSecu');
 
 module.exports = {
-	modelPatientData
+    modelPatientDataSecu
 }

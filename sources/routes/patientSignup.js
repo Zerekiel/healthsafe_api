@@ -1,24 +1,25 @@
-const express = require('express');
-const router = express.Router();
-const mongoose = require('mongoose');
+var express = require('express');
+var router = express.Router();
 
-const modelDrProfileSecu = require('../models/modelDrProfileSecu.js');
-const ctrlEValidatorDrProfile = require('../validators/ctrlEValidatorDrProfile');
+const modelPatientSecuSignup = require('../models/modelPatientSecuSignup');
+const modelPatientSecuProfile = require('../models/modelPatientSecuProfile');
+const modelPatientSignin = require('../models/modelPatientSignin');
+const modelPatientData = require('../models/modelPatientData');
 
 const ctrlRead = require('../controllers/ctrlRead');
+const ctrlEValidatorPatientSignup = require('../validators/ctrlEValidatorPatientSignup');
 const ctrlCreate = require('../controllers/ctrlCreate');
 const ctrlDelete = require('../controllers/ctrlDelete');
 const ctrlUpdate = require('../controllers/ctrlUpdate');
 
 const secu = require('./secu');
 
-/* GET users listing. */
+/* GET user Register listing. */
 router.get('/', async function (req, res, next) {
     try {
-        const result = await ctrlRead.findAllData(modelDrProfileSecu.modelDrProfileSecu);
+        const result = await ctrlRead.findAllData(modelPatientSecuSignup.modelPatientSecuSignup);
         if (JSON.stringify(result) == '[]') {
-            const msg = { msg: "Success but no Data in DB.", result: result };
-            return res.status(204).send(msg)
+            return res.status(204).end();
 
         } else {
             return res.status(200).send(result);
@@ -28,10 +29,11 @@ router.get('/', async function (req, res, next) {
     }
 });
 
-router.get('/drProfileId', async function (req, res) {
+router.get('/patientSignupId', async function (req, res) {
     try {
-        const result = await ctrlRead.findUserByID(modelDrProfileSecu.modelDrProfileSecu, req.body._id)
-        if (JSON.stringify(result) == '[]') {
+
+        const result = await ctrlRead.findUserByID(modelPatientSecuSignup.modelPatientSecuSignup, req.body._id)
+        if (JSON.stringify(result) == "[]") {
             return res.status(204).end();
         } else {
             var social = secu.unshuffle(result[0].socialNumber);
@@ -55,9 +57,7 @@ router.get('/drProfileId', async function (req, res) {
                 email: secu.decrypt(result[0].email, social),
                 password: secu.decrypt(result[0].password, social),
                 confirmationPassword: secu.decrypt(result[0].confirmationPassword, social),
-                expertiseDomain: secu.decrypt(result[0].expertiseDomain, social),
-                idNumber: parseInt(secu.decrypt(result[0].idNumber, social), 10),
-                socialNumber: parseInt(social, 10)
+                socialNumber: social
             }
             return res.status(200).send(resu);
         }
@@ -66,12 +66,11 @@ router.get('/drProfileId', async function (req, res) {
     }
 })
 
-// GET FOR MOBILE
-router.post('/drProfileId', async function (req, res) {
+//GET FOR MOBILE
+router.post('/patientSignupId', async function (req, res) {
     try {
-
-        const result = await ctrlRead.findUserByID(modelDrProfileSecu.modelDrProfileSecu, req.body._id)
-        if (JSON.stringify(result) == '[]') {
+        const result = await ctrlRead.findUserByID(modelPatientSecuSignup.modelPatientSecuSignup, req.body._id)
+        if (JSON.stringify(result) == "[]") {
             return res.status(204).end();
         } else {
             var social = secu.unshuffle(result[0].socialNumber);
@@ -95,9 +94,7 @@ router.post('/drProfileId', async function (req, res) {
                 email: secu.decrypt(result[0].email, social),
                 password: secu.decrypt(result[0].password, social),
                 confirmationPassword: secu.decrypt(result[0].confirmationPassword, social),
-                expertiseDomain: secu.decrypt(result[0].expertiseDomain, social),
-                idNumber: parseInt(secu.decrypt(result[0].idNumber, social), 10),
-                socialNumber: parseInt(social, 10)
+                socialNumber: social
             }
             return res.status(200).send(resu);
         }
@@ -105,45 +102,50 @@ router.post('/drProfileId', async function (req, res) {
         return res.status(500).send(err.stack);
     }
 })
-
+/////
 router.post('/create',
-    [ctrlEValidatorDrProfile.drProfileIsValid()],
+    [ctrlEValidatorPatientSignup.patientSignupIsValid()],
     async function (req, res, next) {
         try {
-            const resultDrProfile = await ctrlCreate.getModelWithValidator(req, modelDrProfileSecu.modelDrProfileSecu)
-            if (resultDrProfile[0] === undefined && !resultDrProfile[1]) {
+            const arrayModel = [modelPatientSignin.modelPatientSignin/*, modelPatientData.modelPatientData*/];
+            const resultPatientSignup = await ctrlCreate.getModelWithValidator(req, modelPatientSecuSignup.modelPatientSecuSignup)
+            if (resultPatientSignup[0] === undefined && !resultPatientSignup[1]) {
+
+
                 var resu = {
                     body: {
-                        firstName: secu.encrypt(resultDrProfile.firstName, resultDrProfile.socialNumber),
-                        lastName: secu.encrypt(resultDrProfile.lastName, resultDrProfile.socialNumber),
-                        birthDay: secu.encrypt(resultDrProfile.birthDay, resultDrProfile.socialNumber),
-                        age: secu.encrypt(resultDrProfile.age, resultDrProfile.socialNumber),
-                        phoneNumber: secu.encrypt(resultDrProfile.phoneNumber, resultDrProfile.socialNumber),
+			_id: resultPatientSignup._id,
+                        firstName: secu.encrypt(resultPatientSignup.firstName, resultPatientSignup.socialNumber),
+                        lastName: secu.encrypt(resultPatientSignup.lastName, resultPatientSignup.socialNumber),
+                        birthDay: secu.encrypt(resultPatientSignup.birthDay, resultPatientSignup.socialNumber),
+                        age: secu.encrypt(resultPatientSignup.age, resultPatientSignup.socialNumber),
+                        phoneNumber: secu.encrypt(resultPatientSignup.phoneNumber, resultPatientSignup.socialNumber),
                         address: [
                             {
-                                streetNumber: secu.encrypt(resultDrProfile.address[0].streetNumber, resultDrProfile.socialNumber),
-                                typeStreetNumber: secu.encrypt(resultDrProfile.address[0].typeStreetNumber, resultDrProfile.socialNumber),
-                                typeStreet: secu.encrypt(resultDrProfile.address[0].typeStreet, resultDrProfile.socialNumber),
-                                street: secu.encrypt(resultDrProfile.address[0].street, resultDrProfile.socialNumber),
-                                zipCode: secu.encrypt(resultDrProfile.address[0].zipCode, resultDrProfile.socialNumber),
-                                city: secu.encrypt(resultDrProfile.address[0].city, resultDrProfile.socialNumber),
-                                country: secu.encrypt(resultDrProfile.address[0].country, resultDrProfile.socialNumber)
+                                streetNumber: secu.encrypt(resultPatientSignup.address[0].streetNumber, resultPatientSignup.socialNumber),
+                                typeStreetNumber: secu.encrypt(resultPatientSignup.address[0].typeStreetNumber, resultPatientSignup.socialNumber),
+                                typeStreet: secu.encrypt(resultPatientSignup.address[0].typeStreet, resultPatientSignup.socialNumber),
+                                street: secu.encrypt(resultPatientSignup.address[0].street, resultPatientSignup.socialNumber),
+                                zipCode: secu.encrypt(resultPatientSignup.address[0].zipCode, resultPatientSignup.socialNumber),
+                                city: secu.encrypt(resultPatientSignup.address[0].city, resultPatientSignup.socialNumber),
+                                country: secu.encrypt(resultPatientSignup.address[0].country, resultPatientSignup.socialNumber)
                             }
                         ],
-                        email: secu.encrypt(resultDrProfile.email, resultDrProfile.socialNumber),
-                        password: secu.encrypt(resultDrProfile.password, resultDrProfile.socialNumber),
-                        confirmationPassword: secu.encrypt(resultDrProfile.confirmationPassword, resultDrProfile.socialNumber),
-                        expertiseDomain: secu.encrypt(resultDrProfile.expertiseDomain, resultDrProfile.socialNumber),
-                        idNumber: secu.encrypt(resultDrProfile.idNumber, resultDrProfile.socialNumber),
-                        socialNumber: secu.shuffle(resultDrProfile.socialNumber)
+                        email: secu.encrypt(resultPatientSignup.email, resultPatientSignup.socialNumber),
+                        password: secu.encrypt(resultPatientSignup.password, resultPatientSignup.socialNumber),
+                        confirmationPassword: secu.encrypt(resultPatientSignup.confirmationPassword, resultPatientSignup.socialNumber),
+                        socialNumber: secu.shuffle(resultPatientSignup.socialNumber),
                     }
                 }
-                const result = await ctrlCreate.postDataWithValidator(resu, modelDrProfileSecu.modelDrProfileSecu);
-                return res.status(200).send(result);
-            } else {
-                return res.status(500).send(resultDrProfile);
-            }
 
+                const resultPatientSecuSignup = await ctrlCreate.postDataWithValidator(resu, modelPatientSecuSignup.modelPatientSecuSignup);
+                const resultPatientSecuProfile = await ctrlCreate.postDataWithValidator(resu, modelPatientSecuProfile.modelPatientSecuProfile);
+                const resultSave = ctrlCreate.saveAll(req, resultPatientSignup, arrayModel);
+
+                return res.status(200).send(resultPatientSecuSignup);
+            } else {
+                return res.status(500).send(resultPatientSignup);
+            }
         } catch (err) {
             return res.status(500).send(err.stack);
         }
@@ -153,13 +155,15 @@ router.post('/create',
 
 router.delete('/delete', async function (req, res) {
     try {
-        const result = await ctrlDelete.findUserAndDelete(modelDrProfileSecu.modelDrProfileSecu, req.body._id);
+        const resultSignup = await ctrlDelete.findUserAndDelete(modelPatientSecuSignup.modelPatientSecuSignup, req.body._id);
+        const resultProfile = await ctrlDelete.findUserAndDelete(modelPatientSecuProfile.modelPatientSecuProfile, req.body._id);
 
-        if (result.result === '[]') {
+        if (resultSignup.result === '[]' || resultProfile.result === "[]"/* || resultSignin.result === "[]"*/) {
             return res.status(204).end();
         } else {
-            return res.status(200).send(result);
+            return res.status(200).send(resultSignup);
         }
+
     } catch (err) {
         return res.status(500).send(err.stack);
     }
@@ -167,15 +171,13 @@ router.delete('/delete', async function (req, res) {
 
 /* UPDATE Connexion page. */
 
-router.put('/update',
-    [ctrlEValidatorDrProfile.drProfileIsValidPUT()],
-    async function (req, res) {
-        try {
-            if (!req.body._id) {
-                return res.status(202).send("NO ID IN BODY");
-            }
-            else {
-                var resu = {
+router.put('/update', async function (req, res) {
+    try {
+        if (!req.body._id) {
+            return res.status(202).send("NO ID IN BODY");
+        } else {
+            var resu = {
+                body: {
                     firstName: secu.encrypt(req.body.firstName, req.body.socialNumber),
                     lastName: secu.encrypt(req.body.lastName, req.body.socialNumber),
                     birthDay: secu.encrypt(req.body.birthDay, req.body.socialNumber),
@@ -195,15 +197,14 @@ router.put('/update',
                     email: secu.encrypt(req.body.email, req.body.socialNumber),
                     password: secu.encrypt(req.body.password, req.body.socialNumber),
                     confirmationPassword: secu.encrypt(req.body.confirmationPassword, req.body.socialNumber),
-                    expertiseDomain: secu.encrypt(req.body.expertiseDomain, req.body.socialNumber),
-                    idNumber: secu.encrypt(req.body.idNumber, req.body.socialNumber),
-                    socialNumber: secu.shuffle(req.body.socialNumber),
+                    socialNumber: secu.shuffle(req.body.socialNumber)
                 }
-                const result = await ctrlUpdate.updateValueByIdWithValidator(req, modelDrProfileSecu.modelDrProfileSecu, req.body._id, resu);
-                return res.status(200).send(result);
             }
-        } catch (err) {
-            return res.status(500).send(err.stack);
+            const result = await ctrlUpdate.updateValueById(modelPatientSecuSignup.modelPatientSecuSignup, req.body._id, resu.body);
+            return res.status(200).send(result);
         }
-    })
+    } catch (err) {
+        return res.status(500).send(err.stack);
+    }
+})
 module.exports = router;

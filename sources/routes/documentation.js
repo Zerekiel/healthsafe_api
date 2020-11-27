@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 router.get('/', (req, res, next) => {
 
@@ -10,7 +10,6 @@ router.get('/', (req, res, next) => {
         }
         catch(err)
         {
-                console.log(err.stack);
                 return res.status(500).send(err.stack);
         }
 

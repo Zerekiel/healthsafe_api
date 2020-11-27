@@ -36,17 +36,17 @@ const upload = multer({ storage: storage });
 /////////////////////////////////////////////////////////////////////////////////
 // SEND ID
 // ctrlAuthentification.auth,
-router.get('/receiveID', ctrlAuthentification.auth, function (req, res) {
+router.get('/receiveID',  ctrlAuthentification.auth, function(req, res) {
     if (JSON.stringify(req.user.idTransfert) === "[]") {
-        return res.status(204).end();
+	    return res.status(204).end();
     }
-
+    
     return res.status(200).send(req.user.idTransfert);
 })
 
 
-router.post('/sendID', ctrlAuthentification.auth, async function (req, res) {
-    try {
+router.post('/sendID', ctrlAuthentification.auth, async function(req, res) {
+try {
         // console.log("REQ" + req.user)
 
         const resultModelTest = new modelDrSignin.modelDrSignin(req.body);
@@ -54,9 +54,9 @@ router.post('/sendID', ctrlAuthentification.auth, async function (req, res) {
         await req.user.idTransfert.set(0, req.body.idTransfert)
         req.user.save();
         return res.status(200).send(req.user);
-    } catch (e) {
+} catch(e) {
         return res.status(500).send(e.stack);
-    }
+}
 
 })
 
@@ -83,6 +83,7 @@ router.get('/', async function (req, res) {
 router.get('/patientDataId', async function (req, res) {
     try {
         const result = await ctrlRead.findUserByID(modelPatientDataSecu.modelPatientDataSecu, req.body._id);
+        var social = secu.unshuffle(result[0].socialNumber);
         if (JSON.stringify(result) != '[]') {
             const saveResult = result;
             const data = await ctrlDelete.findUserAndDelete(modelPatientDataSecu.modelPatientDataSecu, req.body._id);
@@ -92,12 +93,6 @@ router.get('/patientDataId', async function (req, res) {
         } else if (JSON.stringify(result) == '[]') {
             return res.status(204).end();
         }
-
-        var social = secu.unshuffle(result[0].socialNumber);
-        let tab = [];
-        result[0].medicalHistory.forEach(element => {
-	        tab.push(secu.decrypt(element, social));
-        })
         var resu = {
             firstName: secu.decrypt(result[0].firstName, social),
             lastName: secu.decrypt(result[0].lastName, social),
@@ -109,14 +104,13 @@ router.get('/patientDataId', async function (req, res) {
             emergencyNumber: secu.decrypt(result[0].emergencyNumber, social),
             allergies: secu.decrypt(result[0].allergies, social),
             image: result[0].image,
-            medicalHistory: tab,
+            medicalHistory: result[0].medicalHistory,
             bloodType: secu.decrypt(result[0].bloodType, social),
             treatments: secu.decrypt(result[0].treatments, social),
             organDonation: (secu.decrypt(result[0].organDonation, social) === "true"),
             doctor: secu.decrypt(result[0].doctor, social),
             socialNumber: social
         }
-
         return res.status(200).send(resu);
     }
     catch (err) {
@@ -132,6 +126,7 @@ router.post('/patientDataId', async function (req, res) {
 
     try {
         const result = await ctrlRead.findUserByID(modelPatientDataSecu.modelPatientDataSecu, req.body._id);
+        var social = secu.unshuffle(result[0].socialNumber);
         if (JSON.stringify(result) != '[]') {
             const saveResult = result;
             const data = await ctrlDelete.findUserAndDelete(modelPatientDataSecu.modelPatientDataSecu, req.body._id);
@@ -142,11 +137,6 @@ router.post('/patientDataId', async function (req, res) {
         } else if (JSON.stringify(result) == '[]') {
             return res.status(204).end();
         }
-        var social = secu.unshuffle(result[0].socialNumber);
-        let tab = [];
-        result[0].medicalHistory.forEach(element => {
-            tab.push(secu.decrypt(element, social));
-        })
         var resu = {
             firstName: secu.decrypt(result[0].firstName, social),
             lastName: secu.decrypt(result[0].lastName, social),
@@ -158,7 +148,7 @@ router.post('/patientDataId', async function (req, res) {
             emergencyNumber: secu.decrypt(result[0].emergencyNumber, social),
             allergies: secu.decrypt(result[0].allergies, social),
             image: result[0].image,
-            medicalHistory: tab,
+            medicalHistory: result[0].medicalHistory,
             bloodType: secu.decrypt(result[0].bloodType, social),
             treatments: secu.decrypt(result[0].treatments, social),
             organDonation: (secu.decrypt(result[0].organDonation, social) === "true"),
@@ -222,27 +212,25 @@ router.post('/create',
     async function (req, res) {
         try {
             const resultPatientData = await ctrlCreate.getModelWithValidator(req, modelPatientDataSecu.modelPatientDataSecu)
-            let tab = [];
-	console.log(resultPatientData);
+	    console.log(resultPatientData);
             if (resultPatientData[0] === undefined &&
                 !resultPatientData[1]) {
-                resultPatientData.medicalHistory.forEach(element => {
-                    tab.push(secu.encrypt(element, resultPatientData.socialNumber));
-                })
-
+		console.log("IIIIIIIIIIIIIIIIIIIIIIIIIIFFFFFFFFFFFFFFFFFFFFF");
                 var resu = {
                     body: {
                         firstName: secu.encrypt(resultPatientData.firstName, resultPatientData.socialNumber),
                         lastName: secu.encrypt(resultPatientData.lastName, resultPatientData.socialNumber),
                         birthDay: secu.encrypt(resultPatientData.birthDay, resultPatientData.socialNumber),
-                        age: secu.encrypt(resultPatientData.age, resultPatientData.socialNumber),
+                        age: parseInt(secu.encrypt(resultPatientData.age, resultPatientData.socialNumber), 10),
                         gender: secu.encrypt(resultPatientData.gender, resultPatientData.socialNumber),
-                        height: secu.encrypt(resultPatientData.height, resultPatientData.socialNumber),
-                        weight: secu.encrypt(resultPatientData.weight, resultPatientData.socialNumber),
+                        height: parseInt(secu.encrypt(resultPatientData.height, resultPatientData.socialNumber), 10),
+                        weight: parseInt(secu.encrypt(resultPatientData.weight, resultPatientData.socialNumber), 10),
                         emergencyNumber: secu.encrypt(resultPatientData.emergencyNumber, resultPatientData.socialNumber),
                         allergies: secu.encrypt(resultPatientData.allergies, resultPatientData.socialNumber),
                         image: resultPatientData.image,
-                        medicalHistory: tab,
+                        medicalHistory: [].push(resultPatientData.medicalHistory.forEach(element => {
+                            return element;
+                        })),
                         bloodType: secu.encrypt(resultPatientData.bloodType, resultPatientData.socialNumber),
                         treatments: secu.encrypt(resultPatientData.treatments, resultPatientData.socialNumber),
                         organDonation: secu.encrypt(resultPatientData.organDonation, resultPatientData.socialNumber),
@@ -250,9 +238,9 @@ router.post('/create',
                         socialNumber: secu.shuffle(resultPatientData.socialNumber)
                     }
                 }
-
+			    console.log("SSSSSSSSSSSEEEEEEEEEEEEEEECCCCCCCCCCCCCCCCUUUUUUUUUUUUUU");
                 const resultPatientDataSecu = await ctrlCreate.postDataWithValidator(resu, modelPatientDataSecu.modelPatientDataSecu);
-			console.log("\n\n\n" + resultPatientDataSecu);
+			    console.log(resultPatientDataSecu);
                 return res.status(201).send(resultPatientDataSecu);
             } else {
                 return res.status(500).send(resultPatientData);
