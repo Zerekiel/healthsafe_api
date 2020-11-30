@@ -2,7 +2,6 @@ const mongoose = require('mongoose')
 const mongodb = require('mongodb')
 
 const validator = require('validator')
-const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const modelDrSignup = require('./modelDrSignup');
 const sha3_512 = require('js-sha3').sha3_512;
@@ -99,10 +98,6 @@ drSigninSchema.statics.findByCredentials = async (email, password) => {
     if (!user) {
         throw new Error({ error: 'Invalid login credentials' })
     }
-	console.log(password);
-	console.log(typeof password);
-	console.log(user.password);
-	console.log(typeof user.password);
         const isPasswordMatch = (sha3_512(sha3_384(password)) === user.password);
     if (!isPasswordMatch) {
         throw new Error({ error: 'Invalid login credentials' })

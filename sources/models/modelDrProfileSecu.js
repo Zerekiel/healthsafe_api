@@ -1,8 +1,5 @@
 const mongoose = require('mongoose');
 const modelDrSignupSecu = require('./modelDrSignupSecu');
-// const bcrypt = require('bcryptjs')
-// const jwt = require('jsonwebtoken')
-// const validator = require('validator')
 
 const drProfileSecuSchema = mongoose.Schema({
 	_id: {
@@ -142,16 +139,6 @@ const drProfileSecuSchema = mongoose.Schema({
 
 drProfileSecuSchema.pre('save', async function (req) {
 	//GET AGE
-	// var today = new Date();
-	// var birthDate = new Date(this.birthDay);
-	// var age = today.getFullYear() - birthDate.getFullYear();
-	// var m = today.getMonth() - birthDate.getMonth();
-	// if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-	//     age--;
-	// }
-	// console.log(age);
-	// this.age = age;
-	// return age;
 })
 
 drProfileSecuSchema.methods.generateAuthToken = async function () {

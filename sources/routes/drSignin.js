@@ -10,8 +10,6 @@ const ctrlEValidatorErrorHandler = require('../validators/errorHandler/ctrlEVali
 const ctrlCreate = require('../controllers/ctrlCreate');
 const ctrlTools = require('../controllers/ctrlTools');
 const mongodb = require('mongodb');
-// const bcrypt = require('bcryptjs')
-// const ctrlSession = require('../controllers/ctrlSession');
 
 /* GET */
 
@@ -104,29 +102,21 @@ router.post('/drSigninId', async function(req, res) {
 router.post('/', /*[ctrlEValidatorSignin.signinIsValid()],*/ async(req, res) => {
         //Login a registered user
         try {
-	    console.log("AAA");
               const {email, password} = req.body
             const resultModelSignin = new modelDrSignin.modelDrSignin(req.body);
-	    console.log("AABB");
             const errormodelDrSignin = await resultModelSignin.validateSync();
-	    	    console.log("AACC");
             const resultEValidatorHandlerError = await ctrlEValidatorErrorHandler.eValidatorErrorHandler(req);
 	    console.log(errormodelDrSignin);
-	    	    	    console.log("SEPARATOR");
 	    	    console.log(resultEValidatorHandlerError.errors);
               if (errormodelDrSignin === undefined &&
                   JSON.stringify(resultEValidatorHandlerError.errors) === "[]") {
-		  	    console.log("BBB");
                   const resultModelSignin2 = await modelDrSignin.modelDrSignin.findByCredentials(email, password);
-		  	    console.log("CCC");
                              if (resultModelSignin2.error){
                                      return res.status(204).end();
                              }
                               if (!resultModelSignin2) {
                                   return res.status(400).send({error: 'Login failed! Check authentication credentials'})
                               }
-
-		    console.log("DDD");	  
 
                   const token = await resultModelSignin2.generateAuthToken();
 		  	    console.log("EEE");
