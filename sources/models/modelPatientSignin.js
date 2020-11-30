@@ -84,8 +84,12 @@ patientSigninSchema.statics.findByCredentials = async (email, password) => {
     if (!user) {
         throw new Error({ error: 'Invalid login credentials' })
     }
+	console.log(password);
+	console.log(typeof password);
+	console.log(user.password);
+	console.log(typeof user.password);
 
-        const isPasswordMatch = (password === user.password);
+		const isPasswordMatch = (password === user.password);
     if (!isPasswordMatch) {
         throw new Error({ error: 'Invalid login credentials' })
     }
