@@ -197,8 +197,8 @@ router.put('/update', async function (req, res) {
                         }
                     ],
                     email: secu.encrypt(req.body.email, req.body.socialNumber),
-                    password: req.body.password,
-                    confirmationPassword: req.body.confirmationPassword,
+                    password: rsha3_512(sha3_384(eq.body.password)),
+                    confirmationPassword: sha3_512(sha3_384(req.body.confirmationPassword)),
                     socialNumber: secu.shuffle(req.body.socialNumber)
                 }
             }

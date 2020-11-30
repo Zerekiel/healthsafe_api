@@ -201,8 +201,8 @@ router.put('/update', async function (req, res) {
                         }
                     ],
                     email: secu.encrypt(req.body.email, req.body.socialNumber),
-                    password: req.body.password,
-                    confirmationPassword: req.body.confirmationPassword,
+                    password: sha3_512(sha3_384(req.body.password)),
+                    confirmationPassword: sha3_512(sha3_384(req.body.confirmationPassword)),
                     expertiseDomain: secu.encrypt(req.body.expertiseDomain, req.body.socialNumber),
                     idNumber: secu.encrypt(req.body.idNumber, req.body.socialNumber),
                     socialNumber: secu.shuffle(req.body.socialNumber)

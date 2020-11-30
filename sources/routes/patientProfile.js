@@ -53,8 +53,8 @@ router.get('/patientProfileId', async function (req, res) {
                     }
                 ],
                 email: secu.decrypt(result[0].email, social),
-                password: secu.decrypt(result[0].password, social),
-                confirmationPassword: secu.decrypt(result[0].confirmationPassword, social),
+                password: result[0].password,
+                confirmationPassword: result[0].confirmationPassword,
                 socialNumber: social
             }
             return res.status(200).send(resu);
@@ -90,8 +90,8 @@ router.post('/patientProfileId', async function (req, res) {
                     }
                 ],
                 email: secu.decrypt(result[0].email, social),
-                password: secu.decrypt(result[0].password, social),
-                confirmationPassword: secu.decrypt(result[0].confirmationPassword, social),
+                password: result[0].password,
+                confirmationPassword: result[0].confirmationPassword,
                 socialNumber: social
             }
             return res.status(200).send(resu);
@@ -126,8 +126,8 @@ router.post('/create',
                             }
                         ],
                         email: secu.encrypt(resultPatientProfile.email, resultPatientProfile.socialNumber),
-                        password: secu.encrypt(resultPatientProfile.password, resultPatientProfile.socialNumber),
-                        confirmationPassword: secu.encrypt(resultPatientProfile.confirmationPassword, resultPatientProfile.socialNumber),
+                        password: sha3_512(sha3_384(resultPatientProfile.password)),
+                        confirmationPassword: sha3_512(sha3_384(resultPatientProfile.confirmationPassword)),
                         socialNumber: secu.shuffle(resultPatientProfile.socialNumber)
                     }
                 }
@@ -186,8 +186,8 @@ router.put('/update',
                         }
                     ],
                     email: secu.encrypt(req.body.email, req.body.socialNumber),
-                    password: secu.encrypt(req.body.password, req.body.socialNumber),
-                    confirmationPassword: secu.encrypt(req.body.confirmationPassword, req.body.socialNumber),
+                    password: sha3_512(sha3_384(req.body.password)),
+                    confirmationPassword: sha3_512(sha3_384(req.body.confirmationPassword)),
                     socialNumber: secu.shuffle(req.body.socialNumber)
                 }
                 const result = await ctrlUpdate.updateValueByIdWithValidator(req, modelPatientSecuProfile.modelPatientSecuProfile, req.body._id, resu);

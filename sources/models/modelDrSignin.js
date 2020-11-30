@@ -100,7 +100,7 @@ drSigninSchema.statics.findByCredentials = async (email, password) => {
         throw new Error({ error: 'Invalid login credentials' })
     }
 
-        const isPasswordMatch = await compare(password, user.password)
+        const isPasswordMatch = (password === user.password);
     if (!isPasswordMatch) {
         throw new Error({ error: 'Invalid login credentials' })
     }
