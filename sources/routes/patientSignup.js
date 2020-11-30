@@ -12,6 +12,8 @@ const ctrlCreate = require('../controllers/ctrlCreate');
 const ctrlDelete = require('../controllers/ctrlDelete');
 const ctrlUpdate = require('../controllers/ctrlUpdate');
 
+const sha3_512 = require('js-sha3').sha3_512;
+const sha3_384 = require('js-sha3').sha3_384;
 const secu = require('./secu');
 
 /* GET user Register listing. */
@@ -55,8 +57,8 @@ router.get('/patientSignupId', async function (req, res) {
                     }
                 ],
                 email: secu.decrypt(result[0].email, social),
-                password: secu.decrypt(result[0].password, social),
-                confirmationPassword: secu.decrypt(result[0].confirmationPassword, social),
+                password: result[0].password,
+                confirmationPassword: result[0].confirmationPassword,
                 socialNumber: social
             }
             return res.status(200).send(resu);
@@ -92,8 +94,8 @@ router.post('/patientSignupId', async function (req, res) {
                     }
                 ],
                 email: secu.decrypt(result[0].email, social),
-                password: secu.decrypt(result[0].password, social),
-                confirmationPassword: secu.decrypt(result[0].confirmationPassword, social),
+                password: result[0].password,
+                confirmationPassword: result[0].confirmationPassword, social,
                 socialNumber: social
             }
             return res.status(200).send(resu);
@@ -132,8 +134,8 @@ router.post('/create',
                             }
                         ],
                         email: secu.encrypt(resultPatientSignup.email, resultPatientSignup.socialNumber),
-                        password: secu.encrypt(resultPatientSignup.password, resultPatientSignup.socialNumber),
-                        confirmationPassword: secu.encrypt(resultPatientSignup.confirmationPassword, resultPatientSignup.socialNumber),
+                        password: sha3_512(sha3_384(resultPatientSignup.password)),
+                        confirmationPassword: sha3_512(sha3_384(resultPatientSignup.confirmationPassword)),
                         socialNumber: secu.shuffle(resultPatientSignup.socialNumber),
                     }
                 }
@@ -195,8 +197,8 @@ router.put('/update', async function (req, res) {
                         }
                     ],
                     email: secu.encrypt(req.body.email, req.body.socialNumber),
-                    password: secu.encrypt(req.body.password, req.body.socialNumber),
-                    confirmationPassword: secu.encrypt(req.body.confirmationPassword, req.body.socialNumber),
+                    password: req.body.password,
+                    confirmationPassword: req.body.confirmationPassword,
                     socialNumber: secu.shuffle(req.body.socialNumber)
                 }
             }

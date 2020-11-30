@@ -10,7 +10,7 @@ const ctrlEValidatorErrorHandler = require('../validators/errorHandler/ctrlEVali
 const ctrlCreate = require('../controllers/ctrlCreate');
 const ctrlTools = require('../controllers/ctrlTools');
 const mongodb = require('mongodb');
-const bcrypt = require('bcryptjs')
+// const bcrypt = require('bcryptjs')
 // const ctrlSession = require('../controllers/ctrlSession');
 
 /* GET */

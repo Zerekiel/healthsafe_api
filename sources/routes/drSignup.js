@@ -12,6 +12,8 @@ const ctrlCreate = require('../controllers/ctrlCreate');
 const ctrlDelete = require('../controllers/ctrlDelete');
 const ctrlUpdate = require('../controllers/ctrlUpdate');
 
+const sha3_512 = require('js-sha3').sha3_512;
+const sha3_384 = require('js-sha3').sha3_384;
 const secu = require('./secu');
 
 /* GET user Register listing. */
@@ -56,8 +58,8 @@ router.get('/drSignupId', async function (req, res) {
                     }
                 ],
                 email: secu.decrypt(result[0].email, social),
-                password: secu.decrypt(result[0].password, social),
-                confirmationPassword: secu.decrypt(result[0].confirmationPassword, social),
+                password: result[0].password ,
+                confirmationPassword: result[0].confirmationPassword,
                 expertiseDomain: secu.decrypt(result[0].expertiseDomain, social),
                 idNumber: parseInt(secu.decrypt(result[0].idNumber, social), 10),
                 socialNumber: parseInt(social, 10)
@@ -96,8 +98,8 @@ router.post('/drSignupId', async function (req, res) {
                     }
                 ],
                 email: secu.decrypt(result[0].email, social),
-                password: secu.decrypt(result[0].password, social),
-                confirmationPassword: secu.decrypt(result[0].confirmationPassword, social),
+                password: result[0].password,
+                confirmationPassword: result[0].confirmationPassword,
                 expertiseDomain: secu.decrypt(result[0].expertiseDomain, social),
                 idNumber: parseInt(secu.decrypt(result[0].idNumber, social), 10),
                 socialNumber: parseInt(social, 10)
@@ -135,8 +137,8 @@ router.post('/create',
                             }
                         ],
                         email: secu.encrypt(resultDrSignup.email, resultDrSignup.socialNumber),
-                        password: secu.encrypt(resultDrSignup.password, resultDrSignup.socialNumber),
-                        confirmationPassword: secu.encrypt(resultDrSignup.confirmationPassword, resultDrSignup.socialNumber),
+                        password: sha3_512(sha3_384(resultDrSignup.password)),
+                        confirmationPassword: sha3_512(sha3_384(resultDrSignup.confirmationPassword)),
                         expertiseDomain: secu.encrypt(resultDrSignup.expertiseDomain, resultDrSignup.socialNumber),
                         idNumber: secu.encrypt(resultDrSignup.idNumber, resultDrSignup.socialNumber),
                         socialNumber: secu.shuffle(resultDrSignup.socialNumber)
@@ -199,8 +201,8 @@ router.put('/update', async function (req, res) {
                         }
                     ],
                     email: secu.encrypt(req.body.email, req.body.socialNumber),
-                    password: secu.encrypt(req.body.password, req.body.socialNumber),
-                    confirmationPassword: secu.encrypt(req.body.confirmationPassword, req.body.socialNumber),
+                    password: req.body.password,
+                    confirmationPassword: req.body.confirmationPassword,
                     expertiseDomain: secu.encrypt(req.body.expertiseDomain, req.body.socialNumber),
                     idNumber: secu.encrypt(req.body.idNumber, req.body.socialNumber),
                     socialNumber: secu.shuffle(req.body.socialNumber)

@@ -53,8 +53,8 @@ router.get('/drProfileId', async function (req, res) {
                     }
                 ],
                 email: secu.decrypt(result[0].email, social),
-                password: secu.decrypt(result[0].password, social),
-                confirmationPassword: secu.decrypt(result[0].confirmationPassword, social),
+                password: result[0].password,
+                confirmationPassword: result[0].confirmationPassword,
                 expertiseDomain: secu.decrypt(result[0].expertiseDomain, social),
                 idNumber: parseInt(secu.decrypt(result[0].idNumber, social), 10),
                 socialNumber: parseInt(social, 10)
@@ -93,8 +93,8 @@ router.post('/drProfileId', async function (req, res) {
                     }
                 ],
                 email: secu.decrypt(result[0].email, social),
-                password: secu.decrypt(result[0].password, social),
-                confirmationPassword: secu.decrypt(result[0].confirmationPassword, social),
+                password: result[0].password, social,
+                confirmationPassword: result[0].confirmationPassword, social,
                 expertiseDomain: secu.decrypt(result[0].expertiseDomain, social),
                 idNumber: parseInt(secu.decrypt(result[0].idNumber, social), 10),
                 socialNumber: parseInt(social, 10)
@@ -131,8 +131,8 @@ router.post('/create',
                             }
                         ],
                         email: secu.encrypt(resultDrProfile.email, resultDrProfile.socialNumber),
-                        password: secu.encrypt(resultDrProfile.password, resultDrProfile.socialNumber),
-                        confirmationPassword: secu.encrypt(resultDrProfile.confirmationPassword, resultDrProfile.socialNumber),
+                        password: resultDrProfile.password,
+                        confirmationPassword: resultDrProfile.confirmationPassword,
                         expertiseDomain: secu.encrypt(resultDrProfile.expertiseDomain, resultDrProfile.socialNumber),
                         idNumber: secu.encrypt(resultDrProfile.idNumber, resultDrProfile.socialNumber),
                         socialNumber: secu.shuffle(resultDrProfile.socialNumber)
@@ -193,8 +193,8 @@ router.put('/update',
                         }
                     ],
                     email: secu.encrypt(req.body.email, req.body.socialNumber),
-                    password: secu.encrypt(req.body.password, req.body.socialNumber),
-                    confirmationPassword: secu.encrypt(req.body.confirmationPassword, req.body.socialNumber),
+                    password: req.body.password,
+                    confirmationPassword: req.body.confirmationPassword,
                     expertiseDomain: secu.encrypt(req.body.expertiseDomain, req.body.socialNumber),
                     idNumber: secu.encrypt(req.body.idNumber, req.body.socialNumber),
                     socialNumber: secu.shuffle(req.body.socialNumber),

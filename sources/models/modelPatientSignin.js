@@ -1,7 +1,9 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
-const bcrypt = require('bcryptjs')
+// const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const sha3_512 = require('js-sha3').sha3_512;
+const sha3_384 = require('js-sha3').sha3_384;
 const modelPatientSignup = require('./modelPatientSignup');
 
 
@@ -45,7 +47,7 @@ patientSigninSchema.pre('save', async function (next) {
     const user = this;
 
     if (user.isModified('password')) {
-        user.password = await bcrypt.hash(user.password, 10);
+        user.password = await sha3_512(sha3_384(user.password));
     }
     next()
 })
@@ -83,7 +85,7 @@ patientSigninSchema.statics.findByCredentials = async (email, password) => {
         throw new Error({ error: 'Invalid login credentials' })
     }
 
-        const isPasswordMatch = await bcrypt.compare(password, user.password)
+        const isPasswordMatch = await compare(password, user.password)
     if (!isPasswordMatch) {
         throw new Error({ error: 'Invalid login credentials' })
     }
