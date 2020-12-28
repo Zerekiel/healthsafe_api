@@ -4,7 +4,7 @@ var auth = require('../controllers/ctrlAuthentification').auth;
 
 require('util').inspect.defaultOptions.depth = null
 
-router.post('/', auth, async (req, res) => {
+router.post('/', auth_v2, async (req, res) => {
     // Log user out of the application
     try {
         req.user.tokens = req.user.tokens.filter((token) => {
@@ -21,7 +21,7 @@ router.post('/', auth, async (req, res) => {
     }
 })
 
-router.post('/logoutall', auth, async (req, res) => {
+router.post('/logoutall', auth_v2, async (req, res) => {
     // Log user out of all devices
     try {
         req.user.tokens.splice(0, req.user.tokens.length);
