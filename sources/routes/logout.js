@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var auth = require('../controllers/ctrlAuthentification').auth;
+var auth_v2 = require('../controllers/ctrlAuthentification').auth_v2;
 
 require('util').inspect.defaultOptions.depth = null
 
