@@ -27,7 +27,6 @@ function decrypt(text, cle) {
         return text;
     } else {
         var key = aesjs.utils.utf8.toBytes(adaptKey(cle));
-        // var key = aesjs.utils.utf8.toBytes(adaptKey(cle));
 
         // When ready to decrypt the hex string, convert it back to bytes
         var encryptedBytes = aesjs.utils.hex.toBytes(text);

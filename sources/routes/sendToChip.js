@@ -8,7 +8,7 @@ router.post('/', async function (req, res) {
 	var social = secu.shuffle(result.socialNumber);
         let tab = [];
         result.medicalHistory.forEach(element => {
-            tab.push(secu.encrypt(element, social));
+            tab.push(secu.encrypt(element, result.socialNumber));
         })
         var resu = {
             firstName: secu.encrypt(result.firstName, result.socialNumber),
