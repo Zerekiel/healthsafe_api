@@ -1,11 +1,11 @@
 paths:
 # GET
-  /api/drProfile:
+  /api/patientSignup:
     get:
       tags:
-        - DR PROFILE
-      summary: /api/drProfile
-      description: Display all Dr's profile already registered.
+        - PATIENT SIGNUP
+      summary: /api/patientSignup
+      description: Display all user already registered.
       consumes:
         - "application/json"
       produces:
@@ -18,7 +18,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/definitions/drProfileModelRes'
+                $ref: '#/definitions/patientSignupModelRes'
         204:
           description: OK -> No content in DB.
           content:
@@ -32,12 +32,12 @@ paths:
               schema:
                 $ref: '#/definitions/500DefResError'
 
-  /api/drProfile/drProfileId:
+  /api/patientSignup/patientSignupId:
     get:
       tags:
-        - DR PROFILE
-      summary: /api/drProfile/drProfileId
-      description: By ID, display an dr's profile.
+        - PATIENT SIGNUP
+      summary: /api/patientSignup/patientSignupId
+      description: By ID, display an user connected.
       requestBody:
         description: Need ID.
         type: object
@@ -51,7 +51,38 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/definitions/drProfileModelRes'
+                $ref: '#/definitions/patientSignupModelRes'
+        204:
+          description: OK -> No content in DB.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/204DefResSuccess'
+        500:
+          description: ERROR -> check error stack display for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/500DefResError'
+    post:
+      tags:
+        - PATIENT SIGNUP
+      summary: /api/patientSignup/patientSignupId
+      description: FOR ANDROID ONLY -> By ID, display an user connected.
+      requestBody:
+        description: Need ID.
+        type: object
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/idDefRequest'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/patientSignupModelRes'
         204:
           description: OK -> No content in DB.
           content:
@@ -65,57 +96,25 @@ paths:
               schema:
                 $ref: '#/definitions/500DefResError'
 # POST
+  /api/patientSignup/create:
     post:
       tags:
-        - DR PROFILE
-      summary: /api/drProfile/drProfileId
-      description: -- FOR MOBILE -- By ID, Display one Dr's profile registered in DB.
-      requestBody:
-        description: Need ID.
-        type: object
-        content:
-          application/json:
-            schema:
-              $ref: '#/definitions/idDefRequest'
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/definitions/drProfileModelRes'
-        # 204:
-        #   description: OK -> No content in DB.
-        #   content:
-        #     application/json:
-        #       schema:
-        #         $ref: '#/definitions/204DefResSuccess'
-        500:
-          description: ERROR -> check error stack display for more information.
-          content:
-            application/json:
-              schema:
-                $ref: '#/definitions/500DefResError'
-
-  /api/drProfile/create:
-    post:
-      tags:
-        - DR PROFILE
-      summary: api/drProfile/create
-      description: Add Dr profile in DB. Returns a JSON added.
+        - PATIENT SIGNUP
+      summary: api/patientSignup/create
+      description: Add user in DB for registration. Returns a JSON added.
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              $ref: '#/definitions/drProfileModelReqPOST'
+              $ref: '#/definitions/patientSignupModelReqPOST'
       responses:
         200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/definitions/drProfileModelRes'
+                $ref: '#/definitions/patientSignupModelRes'
         500:
           description: ERROR -> check error stack display for more information.
           content:
@@ -124,12 +123,12 @@ paths:
                 $ref: '#/definitions/500DefResError'
 
 # DELETE
-  /api/drProfile/delete:
+  /api/patientSignup/delete:
     delete:
       tags:
-        - DR PROFILE
-      summary: /api/drProfile/delete
-      description:  Delete by ID Dr profile in DB. After send a ID JSON, Delete the user and Returns a JSON deleted.
+        - PATIENT SIGNUP
+      summary: /api/patientSignup/delete
+      description: Delete user in DB for registration by ID. After send a ID JSON, Delete the user and Returns a JSON deleted.
       requestBody:
         description: Need ID. Other keys are not mandatory.
         type: object
@@ -143,7 +142,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/definitions/drProfileModelRes'
+                $ref: '#/definitions/patientSignupModelRes'
         500:
           description: ERROR -> check error stack display for more information.
           content:
@@ -152,25 +151,25 @@ paths:
                 $ref: '#/definitions/500DefResError'
 
 # UPDATE
-  /api/drProfile/update:
+  /api/patientSignup/update:
     put:
       tags:
-        - DR PROFILE
-      summary: /api/drProfile/update
-      description: Update by ID  Dr profile's data in DB. After send a JSON with new data, update the user's data and Returns a JSON updated. IN JSON ID IS MANDATORY
+        - PATIENT SIGNUP
+      summary: /api/patientSignup/update
+      description: Update user's data in DB for registration by ID. After send a JSON with new data, update the user's data and Returns a JSON updated. IN JSON ID IS MANDATORY
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              $ref: '#/definitions/drProfileModelReqPUT'
+              $ref: '#/definitions/patientSignupModelReqPUT'
       responses:
         200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/definitions/drProfileModelRes'
+                $ref: '#/definitions/patientSignupModelRes'
         500:
           description: ERROR -> check error stack display for more information.
           content:

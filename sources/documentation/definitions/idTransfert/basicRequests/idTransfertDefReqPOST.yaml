@@ -1,0 +1,8 @@
+definitions:
+  idTransfertModelReqPOST:
+    type: "object"
+    properties:
+      idTransfert:
+        type: string
+        description: "Id to transfert"
+        example: 5fbe86b459b18019ea608974

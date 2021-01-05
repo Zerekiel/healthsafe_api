@@ -1,0 +1,72 @@
+paths:
+#GET
+  /api/patientData/receiveId:
+    get:
+      tags:
+        - ID TRANSFERT
+      summary: /api/patientData/receiveId
+      description: Receive Id after transfert
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/idTransfertModelRes'
+        204:
+          description: OK -> No content in DB.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/204DefResSuccess'
+        500:
+          description: ERROR -> check error stack display for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/500DefResError'
+
+
+# POST
+
+
+  /api/patientData/sendId:
+    post:
+      tags:
+        - ID TRANSFERT
+      summary: /api/patientData/sendId
+      description: Add user into signin collection and generate a bearer token. Returns JSON
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      requestBody:
+        description: Need ID.
+        type: object
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/idDefRequest'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/idTransfertModelRes'
+        # 400:
+        #   description: ERROR BAD REQUEST
+        #   content:
+        #     application/json:
+        #       schema:
+        #         $ref: '#/definitions/400signinDefResError'
+        500:
+          description: ERROR -> check error stack display for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/500DefResError'

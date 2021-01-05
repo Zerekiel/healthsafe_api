@@ -1,30 +1,63 @@
 paths:
-# GET
-  /api/drProfile:
+#GET
+  /api/drSignin:
     get:
       tags:
-        - DR PROFILE
-      summary: /api/drProfile
-      description: Display all Dr's profile already registered.
+        - DR SIGNIN
+      summary: /api/drSignin
+      description: Display all user connected. Returns a JSON list of all user connected.
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/drSigninModelRes'
+        204:
+          description: OK -> No content in DB.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/204DefResSuccess'
+        500:
+          description: ERROR -> check error stack display for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/500DefResError'
+    post:
+      tags:
+        - DR SIGNIN
+      summary: /api/drSignin
+      description: Allows the user to sign in his credentials and generate a bearer token. Returns JSON
       consumes:
         - "application/json"
       produces:
         - "application/json"
       requestBody:
-        description: Optional description in Markdown
+        description: Email and password are required.
+        type: object
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/drSigninModelReqPOST'
       responses:
         200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/definitions/drProfileModelRes'
-        204:
-          description: OK -> No content in DB.
+                $ref: '#/definitions/drSigninModelRes'
+        400:
+          description: ERROR BAD REQUEST
           content:
             application/json:
               schema:
-                $ref: '#/definitions/204DefResSuccess'
+                $ref: '#/definitions/400drSigninDefResError'
         500:
           description: ERROR -> check error stack display for more information.
           content:
@@ -32,12 +65,16 @@ paths:
               schema:
                 $ref: '#/definitions/500DefResError'
 
-  /api/drProfile/drProfileId:
+  /api/drSignin/drSigninId:
     get:
       tags:
-        - DR PROFILE
-      summary: /api/drProfile/drProfileId
-      description: By ID, display an dr's profile.
+        - DR SIGNIN
+      summary: /api/drSignin/drSigninId
+      description: By ID, display an user connected.
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
       requestBody:
         description: Need ID.
         type: object
@@ -51,7 +88,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/definitions/drProfileModelRes'
+                $ref: '#/definitions/drSigninModelRes'
         204:
           description: OK -> No content in DB.
           content:
@@ -64,32 +101,35 @@ paths:
             application/json:
               schema:
                 $ref: '#/definitions/500DefResError'
-# POST
     post:
       tags:
-        - DR PROFILE
-      summary: /api/drProfile/drProfileId
-      description: -- FOR MOBILE -- By ID, Display one Dr's profile registered in DB.
+        - DR SIGNIN
+      summary: /api/drSignin/drSigninId
+      description: "[ANDROID ONLY]By ID, display an user connected."
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
       requestBody:
-        description: Need ID.
+        description: Email and password are required.
         type: object
         content:
           application/json:
             schema:
-              $ref: '#/definitions/idDefRequest'
+              $ref: '#/definitions/drSigninModelReqPOST'
       responses:
         200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/definitions/drProfileModelRes'
-        # 204:
-        #   description: OK -> No content in DB.
-        #   content:
-        #     application/json:
-        #       schema:
-        #         $ref: '#/definitions/204DefResSuccess'
+                $ref: '#/definitions/drSigninModelRes'
+        400:
+          description: ERROR BAD REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/400drSigninDefResError'
         500:
           description: ERROR -> check error stack display for more information.
           content:
@@ -97,39 +137,17 @@ paths:
               schema:
                 $ref: '#/definitions/500DefResError'
 
-  /api/drProfile/create:
-    post:
-      tags:
-        - DR PROFILE
-      summary: api/drProfile/create
-      description: Add Dr profile in DB. Returns a JSON added.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              $ref: '#/definitions/drProfileModelReqPOST'
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/definitions/drProfileModelRes'
-        500:
-          description: ERROR -> check error stack display for more information.
-          content:
-            application/json:
-              schema:
-                $ref: '#/definitions/500DefResError'
+
+
+
 
 # DELETE
-  /api/drProfile/delete:
+  /api/drSignin/delete:
     delete:
       tags:
-        - DR PROFILE
-      summary: /api/drProfile/delete
-      description:  Delete by ID Dr profile in DB. After send a ID JSON, Delete the user and Returns a JSON deleted.
+        - DR SIGNIN
+      summary: /api/drSignin/delete
+      description: Delete user in DB by ID. Returns JSON.
       requestBody:
         description: Need ID. Other keys are not mandatory.
         type: object
@@ -143,7 +161,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/definitions/drProfileModelRes'
+                $ref: '#/definitions/drSigninModelRes'
+        204:
+          description: OK -> No content in DB.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/204DefResSuccess'
         500:
           description: ERROR -> check error stack display for more information.
           content:
@@ -152,25 +176,25 @@ paths:
                 $ref: '#/definitions/500DefResError'
 
 # UPDATE
-  /api/drProfile/update:
+  /api/drSignin/update:
     put:
       tags:
-        - DR PROFILE
-      summary: /api/drProfile/update
-      description: Update by ID  Dr profile's data in DB. After send a JSON with new data, update the user's data and Returns a JSON updated. IN JSON ID IS MANDATORY
+        - DR SIGNIN
+      summary: /api/drSignin/update
+      description: Update user's data in DB by ID. Returns JSON with new data.
       requestBody:
         content:
           application/json:
             schema:
               type: object
-              $ref: '#/definitions/drProfileModelReqPUT'
+              $ref: '#/definitions/drSigninModelReqPUT'
       responses:
         200:
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/definitions/drProfileModelRes'
+                $ref: '#/definitions/drSigninModelRes'
         500:
           description: ERROR -> check error stack display for more information.
           content:

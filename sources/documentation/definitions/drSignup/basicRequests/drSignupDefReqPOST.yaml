@@ -1,5 +1,5 @@
 definitions:
-  drProfileModel:
+  drSignupModelReqPOST:
     tags:
       - MODELS
     type: "object"
@@ -114,12 +114,37 @@ definitions:
         type: string
         description: "User's expertise domain."
         example : Generaliste
+      socialNumber:
+        type: string
+        description: "User's social number."
+        example: "245432534254325234"
       idNumber:
         type: string
         description: "User's Medical ID. SPECIFICATION NOT YET IMPLMENTED"
         example: "245432534254325234"
-    # required:
-    #   - email
-    #   - password
-    #   - confirmationPassword
-    #   - idNumber
+      # testBinary:
+      #   type: string
+      #   description: "NOT YET IMPLEMENTED"
+      #   deprecated: true
+      #   format: binary
+      #   x-nullable: true
+    required:
+      - lastName
+      - firstName
+      - birthDay
+      - age
+      - phoneNumber
+      - address
+      - streetNumber
+      - typeStreetNumber
+      - typeStreet
+      - strret
+      - zipCode
+      - city
+      - country
+      - email
+      - password
+      - confirmationPassword
+      - expertiseDomain
+      - idNumber
+      - testBinary

@@ -1,14 +1,18 @@
 tags:
-  - name: SIGNUP
-    description: Everything about SignUp routes.
-  - name: SIGNUP_PROFILE
-    description: Everything about SignUp routes with Profile.
-  - name: SIGNUP_PROFILE_PATIENT
-    description: Everything about SignUp routes with Profile for the patients.
-  - name: SIGNIN
-    description: Everything about SignIn routes.
-  - name: DRPROFILE
-    description: Everything about DrProfile routes.
+  - name: DR SIGNUP
+    description: Everything about drSignup routes.
+  - name: DR SIGNIN
+    description: Everything about drSignIn routes.
+  - name: DR PROFILE
+    description: Everything about drProfile routes.
+  - name: PATIENT SIGNUP
+    description: Everything about Patient SignUp routes.
+  - name: PATIENT SIGNIN
+    description: Everything about Patient Signin routes.
+  - name: PATIENT PROFILE
+    description: Everything about Patient Profile routes.
+  - name: ID TRANSFERT
+    description: Everything about Id transfert routes.
   - name: PATIENTDATA
     description: Everything about PatientData routes.
   - name: LOGOUT
@@ -16,42 +20,46 @@ tags:
   - name: DOCUMENTATION
     description: Everything about Documentation routes.
 
-  - name: SIGNUP_MODEL
-    x-displayName: Sign up Model
+  - name: DR_SIGNUP_MODEL
+    x-displayName: Dr Signup Model
     description: |
-        Signup Model
-        <SchemaDefinition schemaRef="#/components/schemas/signupModel" />
-
-  - name: SIGNUP-PROFILE_MODEL
-    x-displayName: Sign up Model with profile data.
+        Doctor Signup Model
+        <SchemaDefinition schemaRef="#/components/schemas/drSignupModel" />
+  - name: DR_SIGNIN_MODEL
+    x-displayName: Dr Signin Model
     description: |
-        SignupProfile Model
-        <SchemaDefinition schemaRef="#/components/schemas/signupProfileModel" />
-
-  - name: SIGNUP-PROFILE-PATIENT_MODEL
-    x-displayName: Sign up Model with profile data for the patients.
+        Doctor Signin Model
+        <SchemaDefinition schemaRef="#/components/schemas/drSigninModel" />
+  - name: DR_PROFILE_MODEL
+    x-displayName: Dr Profile Model
     description: |
-        SignupProfilePatient Model
-        <SchemaDefinition schemaRef="#/components/schemas/signupProfilePatientModel" />
-
-  - name: SIGNIN_MODEL
-    x-displayName: Sign in Model
+        Doctor Profile Model
+        <SchemaDefinition schemaRef="#/components/schemas/drProfileModel" />
+  - name: PATIENT_SIGNUP_MODEL
+    x-displayName: Patient Signup Model
     description: |
-        Signin Model
-        <SchemaDefinition schemaRef="#/components/schemas/signinModel" />
-
+        Patient Signup Model
+        <SchemaDefinition schemaRef="#/components/schemas/patientSignupModel" />
+  - name: PATIENT_SIGNIN_MODEL
+    x-displayName: Patient Signin Model
+    description: |
+        Patient Signin Model
+        <SchemaDefinition schemaRef="#/components/schemas/patientSigninModel" />
+  - name: PATIENT_PROFILE_MODEL
+    x-displayName: Patient Profile Model
+    description: |
+        Patient Profile Model
+        <SchemaDefinition schemaRef="#/components/schemas/patientProfileModel" />
+  - name: PATIENT_PROFILE_MODEL
+    x-displayName: Id Transfert Model
+    description: |
+        ID transfert Model
+        <SchemaDefinition schemaRef="#/components/schemas/idTransfertModel" />
   - name: PATIENTDATA_MODEL
     x-displayName: Patient Data Model
     description: |
         PatientData Model
         <SchemaDefinition schemaRef="#/components/schemas/patientDataModel" />
-
-  - name: DOCTORPROFILE_MODEL
-    x-displayName: Doctor Profile Model
-    description: |
-        Doctor Profile Model
-        <SchemaDefinition schemaRef="#/components/schemas/drProfileModel" />
-        
   - name: LOGOUT_MODEL
     x-displayName: Log out Model
     description: |

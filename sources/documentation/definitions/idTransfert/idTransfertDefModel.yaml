@@ -1,0 +1,8 @@
+definitions:
+  idTransfertModel:
+    type: "object"
+    properties:
+      idTransfert:
+        type: string
+        description: "The user ID."
+        example: 5ddc5f4fb5193a346de246a0

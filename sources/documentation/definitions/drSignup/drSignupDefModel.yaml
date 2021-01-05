@@ -1,5 +1,5 @@
 definitions:
-  drProfileModel:
+  drSignupModel:
     tags:
       - MODELS
     type: "object"

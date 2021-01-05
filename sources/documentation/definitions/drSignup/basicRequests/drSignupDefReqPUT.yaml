@@ -1,13 +1,13 @@
 definitions:
-  drProfileModel:
+  drSignupModelReqPUT:
     tags:
       - MODELS
     type: "object"
     properties:
-      # _id:
-      #   type: string
-      #   description: "The user ID."
-      #   example: 5ddc5f4fb5193a346de246a0
+      _id:
+        type: string
+        description: "The user ID."
+        example: 5ddc5f4fb5193a346de246a0
       lastName:
         type: "string"
         description: "User's lastname."
@@ -114,12 +114,38 @@ definitions:
         type: string
         description: "User's expertise domain."
         example : Generaliste
+      socialNumber:
+        type: string
+        description: "User's social number."
+        example: "245432534254325234"
       idNumber:
         type: string
         description: "User's Medical ID. SPECIFICATION NOT YET IMPLMENTED"
         example: "245432534254325234"
-    # required:
-    #   - email
-    #   - password
-    #   - confirmationPassword
-    #   - idNumber
+      # testBinary:
+      #   type: string
+      #   description: "NOT YET IMPLEMENTED"
+      #   deprecated: true
+      #   format: binary
+      #   x-nullable: true
+    required:
+      - _id
+      - lastName
+      - firstName
+      - birthDay
+      - age
+      - phoneNumber
+      - address
+      - streetNumber
+      - typeStreetNumber
+      - typeStreet
+      - strret
+      - zipCode
+      - city
+      - country
+      - email
+      - password
+      - confirmationPassword
+      - expertiseDomain
+      - idNumber
+      - testBinary
