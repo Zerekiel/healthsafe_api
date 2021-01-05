@@ -80,11 +80,13 @@ patientSigninSchema.statics.findByCredentials = async (email, password) => {
     const user = await modelPatientSignin.findOne({email: email});
 
     if (!user) {
-        throw new Error({ error: 'Invalid login credentials' })
+		return ({error: 'Invalid login credentials'})
+        // throw new Error({ error: 'Invalid login credentials' })
     }
 		const isPasswordMatch = (sha3_512(sha3_384(password)) === user.password);
     if (!isPasswordMatch) {
-        throw new Error({ error: 'Invalid login credentials' })
+		return ({error: 'Invalid login credentials'})
+        // throw new Error({ error: 'Invalid login credentials' })
     }
     return user
 }
