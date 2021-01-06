@@ -1,0 +1,9 @@
+components:
+  schemas:
+    drSignupComponent:
+      tags:
+        - MODELS
+      type: "object"
+      properties:
+        drSignupModel:
+          - $ref: '#/definitions/drSignupModel'

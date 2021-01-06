@@ -24,6 +24,13 @@ definitions:
         pattern: /^(?=.{1,40}$)[a-zA-Z]+(?:[-,.'\s][a-zA-Z]+)*$/i
         default: ""
         example: ODeSu
+      birthDay:
+        type: string
+        description: "User's birthday."
+        format: date
+        pattern: /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/i
+        default: ""
+        example : "1997-05-21"
       age:
         type: integer
         description: "User's age."

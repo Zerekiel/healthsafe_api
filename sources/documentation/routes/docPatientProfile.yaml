@@ -1,0 +1,178 @@
+paths:
+# GET
+  /api/patientProfile:
+    get:
+      tags:
+        - PATIENT PROFILE
+      summary: /api/patientProfile
+      description: Display all user already registered.
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      requestBody:
+        description: Optional description in Markdown
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/patientProfileModelRes'
+        204:
+          description: OK -> No content in DB.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/204DefResSuccess'
+        500:
+          description: ERROR -> check error stack display for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/500DefResError'
+
+  /api/patientProfile/patientProfileId:
+    get:
+      tags:
+        - PATIENT PROFILE
+      summary: /api/patientProfile/patientProfileId
+      description: By ID, display an user connected.
+      requestBody:
+        description: Need ID.
+        type: object
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/idDefRequest'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/patientProfileModelRes'
+        204:
+          description: OK -> No content in DB.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/204DefResSuccess'
+        500:
+          description: ERROR -> check error stack display for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/500DefResError'
+    post:
+      tags:
+        - PATIENT PROFILE
+      summary: /api/patientProfile/patientProfileId
+      description: FOR ANDROID ONLY - By ID, display an user connected.
+      requestBody:
+        description: Need ID.
+        type: object
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/idDefRequest'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/patientProfileModelRes'
+        204:
+          description: OK -> No content in DB.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/204DefResSuccess'
+        500:
+          description: ERROR -> check error stack display for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/500DefResError'
+# POST
+  /api/patientProfile/create:
+    post:
+      tags:
+        - PATIENT PROFILE
+      summary: api/patientProfile/create
+      description: Add user in DB for registration. Returns a JSON added.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/definitions/patientProfileModelReqPOST'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/patientProfileModelRes'
+        500:
+          description: ERROR -> check error stack display for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/500DefResError'
+
+# DELETE
+  /api/patientProfile/delete:
+    delete:
+      tags:
+        - PATIENT PROFILE
+      summary: /api/patientProfile/delete
+      description: Delete user in DB for registration by ID. After send a ID JSON, Delete the user and Returns a JSON deleted.
+      requestBody:
+        description: Need ID. Other keys are not mandatory.
+        type: object
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/idDefRequest'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/patientProfileModelRes'
+        500:
+          description: ERROR -> check error stack display for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/500DefResError'
+
+# UPDATE
+  /api/patientProfile/update:
+    put:
+      tags:
+        - PATIENT PROFILE
+      summary: /api/patientProfile/update
+      description: Update user's data in DB for registration by ID. After send a JSON with new data, update the user's data and Returns a JSON updated. IN JSON ID IS MANDATORY
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/definitions/patientProfileModelReqPUT'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/patientProfileModelRes'
+        500:
+          description: ERROR -> check error stack display for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/500DefResError'

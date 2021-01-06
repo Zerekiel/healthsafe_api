@@ -3,7 +3,7 @@ paths:
   /api/drProfile:
     get:
       tags:
-        - DRPROFILE
+        - DR PROFILE
       summary: /api/drProfile
       description: Display all Dr's profile already registered.
       consumes:
@@ -35,7 +35,7 @@ paths:
   /api/drProfile/drProfileId:
     get:
       tags:
-        - DRPROFILE
+        - DR PROFILE
       summary: /api/drProfile/drProfileId
       description: By ID, display an dr's profile.
       requestBody:
@@ -67,7 +67,7 @@ paths:
 # POST
     post:
       tags:
-        - DRPROFILE
+        - DR PROFILE
       summary: /api/drProfile/drProfileId
       description: -- FOR MOBILE -- By ID, Display one Dr's profile registered in DB.
       requestBody:
@@ -100,7 +100,7 @@ paths:
   /api/drProfile/create:
     post:
       tags:
-        - DRPROFILE
+        - DR PROFILE
       summary: api/drProfile/create
       description: Add Dr profile in DB. Returns a JSON added.
       requestBody:
@@ -127,7 +127,7 @@ paths:
   /api/drProfile/delete:
     delete:
       tags:
-        - DRPROFILE
+        - DR PROFILE
       summary: /api/drProfile/delete
       description:  Delete by ID Dr profile in DB. After send a ID JSON, Delete the user and Returns a JSON deleted.
       requestBody:
@@ -155,7 +155,7 @@ paths:
   /api/drProfile/update:
     put:
       tags:
-        - DRPROFILE
+        - DR PROFILE
       summary: /api/drProfile/update
       description: Update by ID  Dr profile's data in DB. After send a JSON with new data, update the user's data and Returns a JSON updated. IN JSON ID IS MANDATORY
       requestBody:

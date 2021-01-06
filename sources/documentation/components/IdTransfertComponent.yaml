@@ -1,0 +1,9 @@
+components:
+  schemas:
+    idTransfertComponent:
+      tags:
+        - MODELS
+      type: "object"
+      properties:
+        idTransfertModel:
+          - $ref: '#/definitions/idTransfertModel'

@@ -1,9 +1,0 @@
-components:
-  schemas:
-    signupProfilePatientComponent:
-      tags:
-        - MODELS
-      type: "object"
-      properties:
-        signupProfilePatientModel:
-          - $ref: '#/definitions/signupProfilePatientModel'

@@ -1,0 +1,9 @@
+components:
+  schemas:
+    patientSigninComponent:
+      tags:
+        - MODELS
+      type: "object"
+      properties:
+        patientSigninModel:
+          - $ref: '#/definitions/patientSigninModel'

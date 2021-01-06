@@ -1,14 +1,22 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs')
+const modelPatientSignup = require('./modelPatientSignup');
+// const bcrypt = require('bcryptjs')
+// const jwt = require('jsonwebtoken')
+// const validator = require('validator')
 
 const patientProfileSchema = mongoose.Schema({
-	lastName ://
+	_id: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'modelPatientSignup'
+	},
+	lastName :
 	{
 		type : String,
 		// required: true,
 		trim : true,
 		minLength: 1,
 		maxLength: 40,
+		ref: 'modelPatientSignup'
 	},
 	firstName :
 	{
@@ -17,7 +25,14 @@ const patientProfileSchema = mongoose.Schema({
 		trim : true,
 		uppercase: true,
 		minLength: 1,
-		maxLength: 40
+		maxLength: 40,
+		ref: 'modelPatientSignup'
+	},
+	birthDay: {
+		type: String,
+		// required: true,
+		trim: true,
+		ref: 'modelPatientSignup',
 	},
 	age:
 	{
@@ -25,78 +40,79 @@ const patientProfileSchema = mongoose.Schema({
 		// required: true,
 		trim: true,
 		min: 18,
-		max: 120
+		max: 120,
+		ref: 'modelPatientSignup'
 	},
 	phoneNumber:
 	{
 		type: String,
 		// required: true,
-		trim: true
-		// validate: function(value) {
-		// 	console.log(this)
-		// 	const number = phoneNumberValidator.parseAndKeepRawInput(value, 'FR');
-		// 	throw new Error("TEST");
-		// 	return [console.log(phoneNumberValidator.isPossibleNumber(number)),
-		// 	console.log(phoneNumberValidator.isValidNumber(number))]
-		// }
-		// match: /^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$/
+		trim: true,
+		ref: 'modelPatientSignup'
 	},
 	address :
-	[{
-		_id : false,
-		streetNumber: {
-			type: Number,
-			// required: true,
-			trim: true,
-			min: 0
-		},
-		typeStreetNumber: {
-			type: String,
-			enum: ['', "bis", "ter", "quater"],
-			lowercase: true,
-			trim: true,
-			minLength: 0,
-			maxLength: 3
-		},
-		typeStreet: {
-			type: String,
-			enum: ["rue", "avenue", "boulevard", "chemin"],
-			lowercase: true,
-			trim: true,
-			// required: true
-		},
-		street: {
-			type: String,
-			// required: true,
-			trim: true
-		},
-		zipCode: {
-			type: Number,
-			// required: true,
-			trim: true,
-			min: 00001,
-			max: 99999
-		},
-		city: {
-			type: String,
-			// required: true,
-			trim: true,
-			uppercase: true
-		},
-		country: {
-			type: String,
-			// required: true,
-			trim: true,
-			uppercase: true
-		}
-	}],
+		[{
+			_id : false,
+			streetNumber: {
+				type: Number,
+				// required: true,
+				trim: true,
+				min: 0,
+				max: 9999,
+				ref: 'modelPatientSignup'
+			},
+			typeStreetNumber: {
+				type: String,
+				enum: ['', "bis", "ter", "quater"],
+				trim: true,
+				minLength: 0,
+				maxLength: 6,
+				ref: 'modelPatientSignup'
+			},
+			typeStreet: {
+				type: String,
+				enum: ["rue", "avenue", "boulevard", "chemin", "quai"],
+				trim: true,
+				// required: true,
+				ref: 'modelPatientSignup'
+			},
+			street: {
+				type: String,
+				// required: true,
+				trim: true,
+				ref: 'modelPatientSignup'
+			},
+			zipCode: {
+				type: Number,
+				// required: true,
+				trim: true,
+				min: 00001,
+				max: 99999,
+				ref: 'modelPatientSignup'
+			},
+			city: {
+				type: String,
+				// required: true,
+				trim: true,
+				uppercase: true,
+				ref: 'modelPatientSignup'
+			},
+			country: {
+				type: String,
+				// required: true,
+				trim: true,
+				uppercase: true,
+				ref: 'modelPatientSignup'
+			}
+		}],
 	email :
 	{
 		type: String,
 		// required: true,
 		trim: true,
-		// // unique: true,
-		lowercase: true
+		unique: true,
+		lowercase: true,
+		ref: 'modelPatientSignup'
 	},
 	password:
 	{
@@ -104,31 +120,65 @@ const patientProfileSchema = mongoose.Schema({
 		// required: true,
 		trim: true,
 		minLength: 7,
-		maxLength: 20
+		maxLength: 20,
+		ref: 'modelPatientSignup'
 	},
 	confirmationPassword:
 	{
 		type: String,
 		// required: true,
-		trim: true
+		trim: true,
+		ref: 'modelPatientSignup'
+	},
+	expertiseDomain :
+	{
+		type : String,
+		trim : true,
+		uppercase: true,
+		ref: 'modelPatientSignup'
+	},
+	socialNumber : //chiffre ?
+	{
+		type: String,
+		trim: true,
+		// required: true,
+		unique: true,
+		ref: 'modelPatientSignup'
 	},
 	updated:
 	{
 		type: Date,
-		default: Date.now
+		default: Date.now,
+		ref: 'modelPatientSignup'
 	}
 });
 
-patientProfileSchema.pre('save', async function (next) {
-    // Hash the password before saving the user model
-    const user = this;
-
-    if (user.isModified('password')) {
-        user.password = await bcrypt.hash(user.password, 10);
-    }
-    next()
+patientProfileSchema.pre('save', async function (req) {
+	//GET AGE
+	    // var today = new Date();
+	    // var birthDate = new Date(this.birthDay);
+	    // var age = today.getFullYear() - birthDate.getFullYear();
+	    // var m = today.getMonth() - birthDate.getMonth();
+	    // if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+	    //     age--;
+	    // }
+	    // console.log(age);
+	    // this.age = age;
+	    // return age;
 })
-const modelPatientProfile = mongoose.model('patientProfile', patientProfileSchema, 'patientProfile');
+
+patientProfileSchema.methods.generateAuthToken = async function() {
+    // Generate an auth token for the user
+    const user = this;
+    const token = jwt.sign({_id: user._id}, process.env.JWT_KEY);
+
+    user.tokens = user.tokens.concat({token});
+    await user.save();
+
+    return token
+}
+
+const modelPatientProfile = mongoose.model('TEST-PatientProfile', patientProfileSchema, 'TEST-PatientProfile');
 
 module.exports = {
 	modelPatientProfile

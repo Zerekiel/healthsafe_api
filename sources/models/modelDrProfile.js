@@ -1,147 +1,166 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs')
+const modelDrSignup = require('./modelDrSignup');
 
 const drProfileSchema = mongoose.Schema({
-	lastName ://
+	_id: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'modelDrSignup'
+	},
+	lastName:
 	{
-		type : String,
-		// required: true,
-		trim : true,
+		type: String,
+		trim: true,
 		minLength: 1,
 		maxLength: 40,
+		ref: 'modelDrSignup'
 	},
-	firstName :
+	firstName:
 	{
-		type : String,
-		// required: true,
-		trim : true,
+		type: String,
+		trim: true,
 		uppercase: true,
 		minLength: 1,
-		maxLength: 40
+		maxLength: 40,
+		ref: 'modelDrSignup'
+	},
+	birthDay: {
+		type: String,
+		trim: true,
+		ref: 'modelDrSignup',
 	},
 	age:
 	{
 		type: Number,
-		// required: true,
 		trim: true,
 		min: 18,
-		max: 120
+		max: 120,
+		ref: 'modelDrSignup'
 	},
 	phoneNumber:
 	{
 		type: String,
-		// required: true,
-		trim: true
-		// validate: function(value) {
-		// 	console.log(this)
-		// 	const number = phoneNumberValidator.parseAndKeepRawInput(value, 'FR');
-		// 	throw new Error("TEST");
-		// 	return [console.log(phoneNumberValidator.isPossibleNumber(number)),
-		// 	console.log(phoneNumberValidator.isValidNumber(number))]
-		// }
-		// match: /^(?:0|\(?\+33\)?\s?|0033\s?)[1-79](?:[\.\-\s]?\d\d){4}$/
+		trim: true,
+		ref: 'modelDrSignup'
 	},
-	address :
-	[{
-		_id : false,
-		streetNumber: {
-			type: Number,
-			// required: true,
-			trim: true,
-			min: 0
-		},
-		typeStreetNumber: {
-			type: String,
-			enum: ['', "bis", "ter", "quater"],
-			lowercase: true,
-			trim: true,
-			minLength: 0,
-			maxLength: 3
-		},
-		typeStreet: {
-			type: String,
-			enum: ["rue", "avenue", "boulevard", "chemin"],
-			lowercase: true,
-			trim: true,
-			// required: true
-		},
-		street: {
-			type: String,
-			// required: true,
-			trim: true
-		},
-		zipCode: {
-			type: Number,
-			// required: true,
-			trim: true,
-			min: 00001,
-			max: 99999
-		},
-		city: {
-			type: String,
-			// required: true,
-			trim: true,
-			uppercase: true
-		},
-		country: {
-			type: String,
-			// required: true,
-			trim: true,
-			uppercase: true
-		}
-	}],
-	email :
+	address:
+		[{
+			_id: false,
+			streetNumber: {
+				type: Number,
+				trim: true,
+				min: 0,
+				max: 9999,
+				ref: 'modelDrSignup'
+			},
+			typeStreetNumber: {
+				type: String,
+				enum: ['', "bis", "ter", "quater"],
+				trim: true,
+				minLength: 0,
+				maxLength: 6,
+				ref: 'modelDrSignup'
+			},
+			typeStreet: {
+				type: String,
+				enum: ["rue", "avenue", "boulevard", "chemin", "quai"],
+				trim: true,
+				ref: 'modelDrSignup'
+			},
+			street: {
+				type: String,
+				trim: true,
+				ref: 'modelDrSignup'
+			},
+			zipCode: {
+				type: Number,
+				trim: true,
+				min: 00001,
+				max: 99999,
+				ref: 'modelDrSignup'
+			},
+			city: {
+				type: String,
+				trim: true,
+				uppercase: true,
+				ref: 'modelDrSignup'
+			},
+			country: {
+				type: String,
+				trim: true,
+				uppercase: true,
+				ref: 'modelDrSignup'
+			}
+		}],
+	email:
 	{
 		type: String,
-		// required: true,
 		trim: true,
-		// // unique: true,
-		lowercase: true
+		unique: true,
+		lowercase: true,
+		ref: 'modelDrSignup'
 	},
 	password:
 	{
 		type: String,
-		// required: true,
 		trim: true,
 		minLength: 7,
-		maxLength: 20
+		maxLength: 20,
+		ref: 'modelDrSignup'
 	},
 	confirmationPassword:
 	{
 		type: String,
-		// required: true,
-		trim: true
+		trim: true,
+		ref: 'modelDrSignup'
 	},
-	expertiseDomain :
-	{
-		type : String,
-		trim : true,
-		uppercase: true
-	},
-	idNumber : //chiffre ?
+	expertiseDomain:
 	{
 		type: String,
 		trim: true,
-		// required: true,
-		// unique: true
+		uppercase: true,
+		ref: 'modelDrSignup'
+	},
+	socialNumber: //chiffre ? de base cetait idNumber
+	{
+		type: String,
+		trim: true,
+		unique: true,
+		ref: 'modelDrSignup'
 	},
 	updated:
 	{
 		type: Date,
-		default: Date.now
+		default: Date.now,
+		ref: 'modelDrSignup'
 	}
 });
 
-drProfileSchema.pre('save', async function (next) {
-    // Hash the password before saving the user model
-    const user = this;
-
-    if (user.isModified('password')) {
-        user.password = await bcrypt.hash(user.password, 10);
-    }
-    next()
+drProfileSchema.pre('save', async function (req) {
+	//GET AGE
+	// var today = new Date();
+	// var birthDate = new Date(this.birthDay);
+	// var age = today.getFullYear() - birthDate.getFullYear();
+	// var m = today.getMonth() - birthDate.getMonth();
+	// if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+	//     age--;
+	// }
+	// console.log(age);
+	// this.age = age;
+	// return age;
 })
-const modelDrProfile = mongoose.model('drProfile', drProfileSchema, 'drProfile');
+
+drProfileSchema.methods.generateAuthToken = async function () {
+	// Generate an auth token for the user
+	const user = this;
+	const token = jwt.sign({ _id: user._id }, process.env.JWT_KEY);
+
+	user.tokens = user.tokens.concat({ token });
+	await user.save();
+
+	return token
+}
+
+const modelDrProfile = mongoose.model('TEST-DrProfile', drProfileSchema, 'TEST-DrProfile');
 
 module.exports = {
 	modelDrProfile

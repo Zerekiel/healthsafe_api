@@ -1,0 +1,179 @@
+paths:
+# GET
+  /api/drSignup:
+    get:
+      tags:
+        - DR SIGNUP
+      summary: /api/drSignup
+      description: Return an JSON array with all user already registered.
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      requestBody:
+        description: Optional description in Markdown
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/drSignupModelRes'
+        204:
+          description: OK -> No content in DB.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/204DefResSuccess'
+        500:
+          description: ERROR -> check error stack display for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/500DefResError'
+
+  /api/drSignup/drSignupId:
+    get:
+      tags:
+        - DR SIGNUP
+      summary: /api/drSignup/drSignupId
+      description: By ID, display an user connected.
+      requestBody:
+        description: Need ID.
+        type: object
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/idDefRequest'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/drSignupModelRes'
+        204:
+          description: OK -> No content in DB.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/204DefResSuccess'
+        500:
+          description: ERROR -> check error stack display for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/500DefResError'
+    post:
+      tags:
+        - DR SIGNUP
+      summary: /api/drSignup/drSignupId
+      description: "[RESERVED ONLY FOR ANDROID] By ID, display an user connected."
+      requestBody:
+        description: Need ID.
+        type: object
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/idDefRequest'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/drSignupModelRes'
+        204:
+          description: OK -> No content in DB.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/204DefResSuccess'
+        500:
+          description: ERROR -> check error stack display for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/500DefResError'
+# POST
+
+  /api/drSignup/create:
+    post:
+      tags:
+        - DR SIGNUP
+      summary: api/drSignup/create
+      description: Add user in DB for registration. Returns a JSON added.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/definitions/drSignupModelReqPOST'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/drSignupModelRes'
+        500:
+          description: ERROR -> check error stack display for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/500DefResError'
+
+# DELETE
+  /api/drSignup/delete:
+    delete:
+      tags:
+        - DR SIGNUP
+      summary: /api/drSignup/delete
+      description: Delete user in DB for registration by ID. After send a ID JSON, Delete the user and Returns a JSON deleted.
+      requestBody:
+        description: Need ID. Other keys are not mandatory.
+        type: object
+        content:
+          application/json:
+            schema:
+              $ref: '#/definitions/idDefRequest'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/drSignupModelRes'
+        500:
+          description: ERROR -> check error stack display for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/500DefResError'
+
+# UPDATE
+  /api/drSignup/update:
+    put:
+      tags:
+        - DR SIGNUP
+      summary: /api/drSignup/update
+      description: Update user's data in DB for registration by ID. After send a JSON with new data, update the user's data and Returns a JSON updated. IN JSON ID IS MANDATORY
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              $ref: '#/definitions/drSignupModelReqPUT'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/drSignupModelRes'
+        500:
+          description: ERROR -> check error stack display for more information.
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/500DefResError'

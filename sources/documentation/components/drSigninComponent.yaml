@@ -1,0 +1,9 @@
+components:
+  schemas:
+    drSigninComponent:
+      tags:
+        - MODELS
+      type: "object"
+      properties:
+        signinModel:
+          - $ref: '#/definitions/drSigninModel'
