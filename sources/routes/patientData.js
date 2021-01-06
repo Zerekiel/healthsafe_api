@@ -47,10 +47,7 @@ router.get('/receiveID', ctrlAuthentification.auth, function (req, res) {
 
 router.post('/sendID', ctrlAuthentification.auth, async function (req, res) {
     try {
-        // console.log("REQ" + req.user)
-
         const resultModelTest = new modelDrSignin.modelDrSignin(req.body);
-        // console.log(resultModelTest)
         await req.user.idTransfert.set(0, req.body.idTransfert)
         req.user.save();
         return res.status(200).send(req.user);
@@ -223,7 +220,6 @@ router.post('/create',
         try {
             const resultPatientData = await ctrlCreate.getModelWithValidator(req, modelPatientDataSecu.modelPatientDataSecu)
             let tab = [];
-	console.log(resultPatientData);
             if (resultPatientData[0] === undefined &&
                 !resultPatientData[1]) {
                 resultPatientData.medicalHistory.forEach(element => {
@@ -252,7 +248,6 @@ router.post('/create',
                 }
 
                 const resultPatientDataSecu = await ctrlCreate.postDataWithValidator(resu, modelPatientDataSecu.modelPatientDataSecu);
-			console.log("\n\n\n" + resultPatientDataSecu);
                 return res.status(201).send(resultPatientDataSecu);
             } else {
                 return res.status(500).send(resultPatientData);

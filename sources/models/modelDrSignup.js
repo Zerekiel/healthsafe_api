@@ -137,19 +137,7 @@ const DrSignupSchema = mongoose.Schema({
 	}
 });
 
-DrSignupSchema.pre('save', async function (req) {
-	//GET AGE
-	    // var today = new Date();
-	    // var birthDate = new Date(this.birthDay);
-	    // var age = today.getFullYear() - birthDate.getFullYear();
-	    // var m = today.getMonth() - birthDate.getMonth();
-	    // if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-	    //     age--;
-	    // }
-	    // console.log(age);
-	    // this.age = age;
-	    // return age;
-})
+DrSignupSchema.pre('save', async function (req) {})
 
 DrSignupSchema.methods.generateAuthToken = async function() {
     // Generate an auth token for the user

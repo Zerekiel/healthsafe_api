@@ -47,10 +47,8 @@ router.get('/receiveID',  ctrlAuthentification.auth, function(req, res) {
 
 router.post('/sendID', ctrlAuthentification.auth, async function(req, res) {
 try {
-        // console.log("REQ" + req.user)
 
         const resultModelTest = new modelDrSignin.modelDrSignin(req.body);
-        // console.log(resultModelTest)
         await req.user.idTransfert.set(0, req.body.idTransfert)
         req.user.save();
         return res.status(200).send(req.user);
@@ -212,10 +210,8 @@ router.post('/create',
     async function (req, res) {
         try {
             const resultPatientData = await ctrlCreate.getModelWithValidator(req, modelPatientDataSecu.modelPatientDataSecu)
-	    console.log(resultPatientData);
             if (resultPatientData[0] === undefined &&
                 !resultPatientData[1]) {
-		console.log("IIIIIIIIIIIIIIIIIIIIIIIIIIFFFFFFFFFFFFFFFFFFFFF");
                 var resu = {
                     body: {
                         firstName: secu.encrypt(resultPatientData.firstName, resultPatientData.socialNumber),
@@ -238,9 +234,7 @@ router.post('/create',
                         socialNumber: secu.shuffle(resultPatientData.socialNumber)
                     }
                 }
-			    console.log("SSSSSSSSSSSEEEEEEEEEEEEEEECCCCCCCCCCCCCCCCUUUUUUUUUUUUUU");
                 const resultPatientDataSecu = await ctrlCreate.postDataWithValidator(resu, modelPatientDataSecu.modelPatientDataSecu);
-			    console.log(resultPatientDataSecu);
                 return res.status(201).send(resultPatientDataSecu);
             } else {
                 return res.status(500).send(resultPatientData);

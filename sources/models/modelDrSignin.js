@@ -84,12 +84,9 @@ drSigninSchema.methods.mygenerateSessionId = async function(req) {
 }
 
 drSigninSchema.statics.findByCredentials = async (email, password) => {
-    // Search for a user by email and password.s
+    // Search for a user by email and password.
     const user = await modelDrSignin.findOne({email: email});
     const checkdb = await modelDrSignin.find({email: email});
-
-    console.log(user);
-    console.log(checkdb);
 
     if (JSON.stringify(checkdb) === '[]') {
 	    return {error: 'No DATA in DB'}

@@ -102,12 +102,11 @@ router.post('/drSigninId', async function(req, res) {
 router.post('/', /*[ctrlEValidatorSignin.signinIsValid()],*/ async(req, res) => {
         //Login a registered user
         try {
-              const {email, password} = req.body
+            const {email, password} = req.body
             const resultModelSignin = new modelDrSignin.modelDrSignin(req.body);
             const errormodelDrSignin = await resultModelSignin.validateSync();
             const resultEValidatorHandlerError = await ctrlEValidatorErrorHandler.eValidatorErrorHandler(req);
-	    console.log(errormodelDrSignin);
-	    	    console.log(resultEValidatorHandlerError.errors);
+
               if (errormodelDrSignin === undefined &&
                   JSON.stringify(resultEValidatorHandlerError.errors) === "[]") {
                   const resultModelSignin2 = await modelDrSignin.modelDrSignin.findByCredentials(email, password);
@@ -119,13 +118,11 @@ router.post('/', /*[ctrlEValidatorSignin.signinIsValid()],*/ async(req, res) => 
                               }
 
                   const token = await resultModelSignin2.generateAuthToken();
-		  	    console.log("EEE");
                               var myQuery = { _id: new mongodb.ObjectId(req.body._id) };
                               const dataToChange = {sessions: [{
                           	    sessionId: req.sessionID
                               }]};
                   const result = await ctrlUpdate.updateValueByEmail(modelDrSignin.modelDrSignin, req.body.email, dataToChange)
-		  	    console.log("FFF");
                               return res.status(200).send({ id: resultModelSignin2._id, token, sessionID: result[0].sessions[0].sessionId}); //, session: result.sessions.sessionId
               } else {
                       return res.status(500).send([errormodelDrSignin, resultEValidatorHandlerError]);
